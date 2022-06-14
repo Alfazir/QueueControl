@@ -1,0 +1,32 @@
+{
+  "MySettings": {
+    "IntegrationAddress": "https://example.com/local/ajax/Example.php?code",
+    "IntegrationToken": "queue",
+    "PHPSESSID": "wYZWe6V4rj8WgRANtKd9QMu0Jq4ikK6v",
+    "ShippingAddress": "https://example.com/local/ajax/example.php?type_rec=add_que&place=1&barcode",
+    //"ShippingToken": "",
+    "ShippingPHPSESSID": "example"
+
+
+
+  },
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
+    },
+    "AllowedHosts": "*",
+  "ConnectionStrings": {
+    //  "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=QueueDataBase;Trusted_Connection=True;Integrated Security=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    "DefaultConnection": "Data Source=.\\SQLEXPRESS;User ID=SA;Password=examplePass1;Initial Catalog=QueueDataBase;Integrated Security=True;Trusted_Connection=false;"
+
+    // "DefaultConnection": "Server=.\\SQLEXPRESS;Database=QueueDataBase;User Id=TEST;  Password=testtest;Trusted_Connection=False; MultipleActiveResultSets=true "
+
+    // "DefaultConnection": "Data Source=.\\SQLEXPRESS;Initial Catalog=QueueDataBase;User ID=TEST;Password=testtest; Trusted_Connection=False"
+  }
+
+
+
+  }

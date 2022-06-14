@@ -1,0 +1,45 @@
+﻿@model QueueControlServer.ViewModels.Users.CreateTerminalViewModel
+@{
+    ViewBag.Title = "Добавление пользователя";
+}
+<form asp-action="CreateTerminal" asp-controller="Users">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input type="text" asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label">Пароль</label>
+        <input type="password" asp-for="Password" class="form-control" />
+    </div>
+   @* <div class="form-group">
+        <label asp-for="Year" class="control-label">Год рождения</label>
+        <input type="number" asp-for="Year" class="form-control" />
+    </div>*@
+    <div class="form-group">
+        <label asp-for="Factory" class="control-label">ЗАВОД</label>
+        <select asp-for="OrganizationId" asp-items="ViewBag.Factory"></select>
+    </div>
+    <div class="form-group">
+        <table>
+            @for (int i=0; i< Model.Queues.Capacity; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(x=>Model.Queues[i].Id)
+                        @Html.DisplayFor(it=>Model.Queues[i].Title)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(it=>Model.Queues[i].IsChecked, new {Style = ""})
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-outline-secondary" />
+    </div>
+</form>

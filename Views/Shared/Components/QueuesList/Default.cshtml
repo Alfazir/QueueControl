@@ -1,0 +1,65 @@
+﻿@model IEnumerable<QueueControlServer.Models.Queue>
+
+
+<style>
+  
+   @* .btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: whitesmoke;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.active, .btn:hover {
+  background-color: #666;
+  color: white;
+}
+*@
+.btn {
+    padding: 10px 10px;
+    margin: 0px;
+    background: lightblue;
+    min-width: 100px;
+    border-radius: 100px;
+    align-self: flex-start;
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5);
+
+}
+
+
+.form-item_checkbox {
+    margin: 10px;
+}
+
+
+
+</style>
+
+<h1> Список очередей:</h1>
+<form class="form-item_checkbox" id="item_checkbox">
+  <div class="scroll-table">
+      <div class="scroll-table-bodyQueue">
+           <a class="   Layout container-fluid "><h9><font size="1"></font></h9></a>
+        @foreach (var item in Model)
+        {
+         
+                <input  type="checkbox" hidden id="@item.QueueId" name="@item.QueueName" value="@item.QueueId" >
+                <label aria-pressed="true"  class="btn btn-sm btn-block btn-outline-success" role="button"  aria-label="false" for="@item.QueueId"><h4>@item.QueueName   @if(User.IsInRole("admin")){@item.Factory.OrganizationName} </h4></label><br>
+         
+        }
+        </div>
+    </div>    
+</form>
+<script>
+         $('.btn').click(function(){
+    if($(this).hasClass('active')){
+        $(this).removeClass('active')
+    } else {
+        $(this).addClass('active')
+    }
+});
+    
+
+</script>

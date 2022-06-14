@@ -1,0 +1,727 @@
+﻿@model IEnumerable<QueueItems>
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutVisors.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+@* <script src="~/js/site.js"></script>*@
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+<script>
+                  src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                  src="~/lib/jquery/dist/jquery.min.js"
+       $(() => {
+                LoadProdData();
+
+                const connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/signalServer")
+                    .configureLogging(signalR.LogLevel.Information)
+                    .build();
+
+
+
+                connection.on('SetUsersOnline', usersOnline => {
+                    if (usersOnline.length > 0) {
+                        $('#onlineUsers').innerText = '';
+                        $.each(usersOnline, function (i, user) {
+                            addUserOnline(user);
+                        });
+                    }
+                });
+
+                connection.start().catch(err => console.error(err.toString()));
+
+                // ончардж фильтрации (фильтрация при изменении значений полей)
+
+                $(':checkbox').change(function () {
+                    LoadProdData();
+                });
+
+           @*  $('#myFactory').change(function () {
+               LoadProdData();
+               })
+               LoadProdData();
+
+               $('#myCarrier').change(function () {
+               LoadProdData();
+               })
+               LoadProdData();
+
+               $('#myQueue').change(function () {
+               LoadProdData();
+               })
+               LoadProdData();  *@
+
+        
+
+
+        $('#BtnSave').click(function() {
+             BtnBlock();
+    
+                    })
+
+        /*  $('#btnDelete').click(function() {
+
+               setTimeout( BtnDeleteConfirmedLoad , 900);
+               BtnDeleteConfirmedLoad();
+           })*/
+
+                $('#Search').keyup (function () {
+                    LoadProdData();
+                })
+                LoadProdData();
+
+                connection.on("LoadQueueItems", function () {
+                    LoadProdData();
+                })
+                LoadProdData();
+
+
+
+                function LoadProdData(id) {
+                    var tr = '';
+
+                    var   checkedBox =$('input:checked');
+                    var  out =[];
+                    for (var x=0; x<checkedBox.length; x++)
+                    {
+                      out.push(checkedBox[x].value).toString;
+                    }
+
+                    $.ajax({
+                         type: "POST",
+                         contentType: 'application/json; charset=utf-8',
+                         dataType: "json",
+                        url: '/QueueItems/GetQueueItems',
+                        data: 'Search=' + ($(".form-control-lg").val()) + '&FactoryName=' + ($("#myFactory option:selected").text()) + '&CarrierName=' +
+                            ($("#myCarrier option:selected").text()) + '&QueueName=' + ($("#myQueue option:selected").text())
+
+
+                            + '&QueueList='+ JSON.stringify(out),
+
+
+                        method: 'GET',
+                        success: (viewModel) => {
+                            /*    $.each(viewModel.QueueItems, function (key,data) {
+                                     tr += `<tr>
+                                       <td>${data.OderLine}</td>
+                                       <td>${data.CarNumber}</td>
+                                       <td>${data.Barecode}</td>
+                                       <td>${data.Brand}</td>
+                                       <td>${data.Package}</td>
+                                       <td>${data.DriverName}</td>
+                                       <td>${data.FactoryId}</td>
+
+                                       <td>
+                                       <a href ='../QueueItems/Edit?id=${data.QueueID}'>Edit</a>
+                                       <a href ='../QueueItems/Details?id=${data.QueueID}'>Details</a>
+                                       <a href ='../QueueItems/Delete?id=${data.QueueID}'>Delete</a>
+                                       </td>
+                                  </tr>`;
+                                 })*/
+                           // $('#QQQ').prepend('<option value="">новый option</option>');
+                            $.each(viewModel.QueueItems, function (key, data) {
+                                tr += `<tr>
+                                       <td>${data.OderLine}</td>
+                                       <td>${data.CarNumber}</td>
+                                       <td>${data.Barecode}</td>
+                                       <td>${data.QueueName}</td>
+                                       <td>${data.DriverName}</td >
+                                       <td>${data.CarrierName}</td>
+                                       <td>${data.FactoryName}</td>
+                                       <td>${data.CreatedAt.substring(0, 10)}${" "+data.CreatedAt.substring(11, 19)}</td >
+                                       <td>
+    @*  <a class=hide href ='../QueueItems/Edit?QueueItemId=${data.QueueItemId}'>Edit</a>
+        <a class=hide href='../QueueItems/Details?QueueItemId=${data.QueueItemId}'><h5>Подробнее</h5></a>
+        <a class=hide href ='../QueueItems/Delete?QueueItemId=${data.QueueItemId}'>Delete</a>*@
+
+                                      <a href='#' onclick='FunctionEdit("${data.QueueItemId}","Edit")' class='btn btn-primary' id= 'btnEdit'>Редактировать</a>
+                                     <a href='#' onclick='FunctionEdit("${data.QueueItemId}", "Delete")' class='btn btn-danger' id ='btnDelete'>Удалить</a>
+                                     @*  <a  href ='../QueueItems/Delete?QueueItemId=${data.QueueItemId}' class='btn btn-danger' id ='btnDelete'>Удалить</a>*@
+
+
+                                       <div id="modal-placeholder"></div>
+                                       </td>
+                                  </tr>`;
+                                  var editbuttin = "<a href='# onclick='FunctionEdit(this)' class='btn btn-primary'>Edit</a>"
+
+                            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 $(function () {
+                     $.ajaxSetup({ cache: false });
+                     $(".hide").click(function (e) {
+                      e.preventDefault();
+                      var url = "/QueueItems/EditPartial?QueueItemId=${}";
+                      $.get(url).done(function (data) {
+                      $('#modal-placeholder').html(data);
+                      $('#modal-placeholder > .modal').modal('show');
+                      document.getElementById('target').remove();
+                });
+            });
+        })
+
+                            $.each(viewModel.QueueItems.Factory, function (key, data) {
+                                    // console.log([['Barecode'] + key + data]);
+                                    tr += `<tr>
+                                     <td>${data.OrganizationName}</td>
+                                   </tr>`;
+                                })
+                            $("#tableBody").html(tr);
+                        },
+                        error: (error) => {
+                            console.log(error)
+                        }
+
+
+                    });
+
+                }
+            })
+
+</script>
+
+<head>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: 30% auto;
+            gap: 8px;
+        @*background-color: #2196F3;*@ padding: 8px;
+            width: 99vw;
+            height: 87vh;
+        }
+
+            .grid-container > div {
+                background-color: rgba(255, 255, 255, 0.8);
+                text-align: center;
+               padding: 0px 0px;
+                font-size: 20px;
+            }
+
+
+        .item2 {
+            height: 5vh;
+        }
+
+        body {
+            background-color: whitesmoke;
+            background-image: url("../images/Photo1.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-container">
+        <div class="item1">
+            <table class="table">
+                @* <thead>
+                    <tr>
+                    <th>ID элемента</th>
+                    </tr>
+                    </thead>*@
+                <tbody>
+                    @await  Component.InvokeAsync("QueuesList")
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+                    $('.form-item_checkbox input:checked').each(function() {
+              console.log($(this).attr('name'));
+              // Output: input_1, input_3
+            });
+
+
+
+        </script>
+
+        <style>
+            .scroll-table {
+                margin: 0px;
+                margin-bottom: 0px;
+            }
+
+            .scroll-table-body {
+                height: 720px;
+                overflow-x: auto;
+                margin-top: 5px;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #eee;
+            }
+
+
+            .scroll-table-bodyQueue {
+                height: 83vh;
+                overflow-x: auto;
+                margin-top: 0px;
+                margin-bottom: 0px;
+                border-bottom: 1px solid #eee;
+                background-color: lightgrey;
+            }
+
+
+
+
+            .scroll-table table {
+                width: 100%;
+                table-layout: fixed;
+                border: none;
+                margin: 0px;
+                padding: 0px;
+            }
+
+            .scroll-table thead th {
+                font-weight: bold;
+                text-align: left;
+                border: none;
+                padding: 10px 15px;
+                background: #d8d8d8;
+                font-size: 14px;
+                border-left: 10px solid #ddd;
+                border-right: 10px solid #ddd;
+            }
+
+            .scroll-table tbody td {
+                text-align: left;
+                border-left: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                padding: 10px 15px;
+                font-size: 14px;
+                vertical-align: top;
+            }
+
+            .scroll-table tbody tr:nth-child(even) {
+                background: #f3f3f3;
+                margin: 10px;
+            }
+
+            /* Стили для скролла */
+            ::-webkit-scrollbar {
+                width: 12px;
+                height: 10px;
+            }
+
+            ::-webkit-scrollbar-track {
+                box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            }
+
+            ::-webkit-scrollbar-thumb {
+                box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+                background: grey;
+            }
+
+            .item1 {
+                background-color: #2196F3;
+                margin: 0px;
+            }
+
+            #btnEdit  {
+                   padding: 10px 10px;
+                   margin: 0px;
+                  /* background: lightblue;*/
+                   background: blue;
+                   min-width: 100px;
+                   border-radius: 100px;
+                   align-self: flex-start;
+                   box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5);
+              }
+            #btnDelete {
+                   padding: 10px 20px;
+                   margin: 0px;
+                  /* background: lightblue;*/
+                   background: red;
+                   min-width: 100px;
+                   border-radius: 100px;
+                   align-self: flex-start;
+                   box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5);
+              }
+             #btnAddItem {
+              Color: white;
+              background: green;
+              padding: 10px 20px;
+              margin: 0px;
+             }
+             .btn-default{
+                 margin-left: 15px;
+                 margin-right:15px;
+             }
+        </style>
+        <div class="item2">
+            <form>
+                <div class="form-inline form-group">
+
+                    <label class="control-label">Поиск: </label>
+                    <br />
+                    <input name="name" class="form-control-lg" id="Search" />
+                    <br />
+                   @* <input type="submit" value="Очистить" class="btn btn-default" id="ddl" onclick="LoadProdData();" />*@
+                     <a class="btn btn-default" asp-area="" id="btnClearAll" asp-controller="Home" asp-action="IndexSupervizor">Очистить</a>  
+                    <a href="#" onclick="Createnew(); return false;" class="btn btn-default" id="btnAddItem"> Добавить</a>
+              
+                        <a class="btn btn-default" asp-area="" asp-controller="QueueItems" asp-action="Create">Добавить по штрихкоду</a>
+                  
+
+
+                    @Html.Partial("~/Views/Shared/Master/_CreateQueueItem.cshtml")
+                </div>
+
+            </form>
+            @*<script type= "text/javascript" src=" http://code.jquery.com/jquery-3.6.0.min.js"></script>*@
+            <script type="text/javascript">
+                        var js= jQuery.noConflict(true);
+
+                        js(document).ready (function(){
+                            LoadSelectQueue();
+                        });
+
+                        function Createnew () {
+                           Clearall();
+                           $('#btnmodel').trigger('click');
+                           $('#exampleModalLabel').text('Регистрация в очереди');
+                            document.getElementById("txtOderLine").hidden = true;
+                             document.getElementById("labelOderLine").hidden = true;
+                            document.getElementById("BtnSave").hidden=false;
+                              document.getElementById("BtnEdit").hidden= true;
+                              document.getElementById("BtnDeleteConfirmed").hidden = true;
+
+                          // LoadSelectQueue();  labelOderLine
+
+                        }
+                        function EditNew() { 
+                              Clearall();
+                                $('#btnmodel').trigger('click');
+                                $('#exampleModalLabel').text('Редактирование элемента очереди');
+                                document.getElementById("txtOderLine").hidden = false;
+                                document.getElementById("labelOderLine").hidden = false;
+                                 document.getElementById("BtnSave").hidden=true;
+                              document.getElementById("BtnEdit").hidden= false;
+                            document.getElementById("BtnDeleteConfirmed").hidden = true;
+                        }
+                        function DeleteNew() { 
+                              Clearall();
+                                $('#btnmodel').trigger('click');
+                                   $('#exampleModalLabel').text('Подтвердите удаление из очереди!');
+                                   document.getElementById("txtOderLine").hidden = false;
+                                   document.getElementById("labelOderLine").hidden = false;
+                                 document.getElementById("BtnSave").hidden=true;
+                              document.getElementById("BtnEdit").hidden= true;
+                            document.getElementById("BtnDeleteConfirmed").hidden = false;
+                        }
+
+
+                         function FunctionEdit (a,b,c) {
+                            // alert(arguments[1]);
+                             if (arguments[1] == "Edit") { EditNew(); } else if (arguments[1]=="Delete") {DeleteNew() }
+
+                        
+                            //   if (arguments[1].toString = "Delete") {DeleteNew(); }
+                             //console.log(arguments[0]);
+
+                               $.ajax({
+                    url: '/QueueItems/Edit',
+                    type: 'post',
+                    dataType: "json",
+                     contentType: 'application/json; charset=utf-8',
+                    data: 'QueueItemId='+arguments[0],
+                    contentType: 'application/json; charset=utf-8',
+                    method: 'GET',
+                    success: (queueItem) => {
+
+                     if (queueItem != null)
+                              {
+                                 $('#txtQueueItemId').val(queueItem.QueueItemId);
+                                 $('#txtOderLine').val(queueItem.OderLine);
+                                 $('#txtCarNumber').val(queueItem.CarNumber);
+                                 $('#txtDriverName').val(queueItem.DriverName);
+                                 $('#txtBarecode').val(queueItem.Barecode);
+                                 $('#txtFactory').val(queueItem.Factory);
+                                 $('#dllQueue').val(queueItem.QueueId);
+
+                              }
+                            //  document.getElementById("BtnSave").hidden=true;
+                           //   document.getElementById("BtnEdit").hidden= false;
+                   
+
+                      
+                    },
+                    error: (error) => {
+                        console.log(error)
+                    }
+                });
+                         }
+
+
+                        function Clearall(){
+                            $('#txtOderLine').val('');
+                             $('#txtCarNumber').val('');
+                              $('#txtDriverName').val('');
+                               $('#txtBarecode').val('');
+                                $('#txtFactory').val('');
+                                 $('#dllQueue').val('');
+
+                        }
+
+                        function LoadSelectQueue () {
+                            $('#dllQueue option').remove();
+                            $('#dllQueue').append("<option disabled value=''>Выберите очередь</option>");
+
+                           $.ajax({
+                            type: 'post',
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: "json",
+
+                            url: '/Queues/GetQueue',
+                            data:{},
+                            success:(tempqueues)=>
+                            { if (tempqueues!=null)
+                                {
+                                $.each(tempqueues, function(key, data)
+                                {
+                                    $('#dllQueue').append("<option value='"+data.QueueId+"'> "+data.QueueName+" "+data.Factory.OrganizationName+" </option>");
+                                });
+
+                                }
+                            },
+                            error() {
+
+                            }
+                        });
+                        }
+
+                  function Save () {
+
+                            var CarNumber  = $('#txtCarNumber').val();
+                            var DriverName = $('#txtDriverName').val();
+                            var QueueId    = $('#dllQueue').val();
+
+
+                            var QueueItemdata = new Object();
+
+                            QueueItemdata.CarNumber= CarNumber;
+                            QueueItemdata.DriverName= DriverName;
+                            QueueItemdata.QueueId= QueueId;
+
+
+
+
+                            $.ajax({
+                            type: 'post',
+                            c: 'application/x-www-form-urlencoded',
+
+                            url: '/QueueItems/CreateWithoutBarecode',
+                            data: {CarNumber:$('#txtCarNumber').val(),
+                            DriverName:$('#txtDriverName').val(),
+                            QueueId:$('#dllQueue').val()
+
+                            },
+                            success:(tempqueues)=>
+                            {
+                                 $('#exampleModalLabel').text('Сохранено!');
+                                    $('#exampleModalLabel').attr('align','center');
+                                     setTimeout( Close , 900);
+                                    setTimeout( DialogClose , 900);
+
+                            }
+                            ,
+                            error() {
+
+                            }
+                        });
+
+                        }
+
+                     function EditSave () {
+
+                           // var CarNumber  = $('#txtCarNumber').val();
+                          //  var DriverName = $('#txtDriverName').val();
+                          //  var QueueId    = $('#dllQueue').val();
+                            var QueueItemId = $('#txtQueueItemId').val();
+
+                            var QueueItemdata = new Object();
+
+                          //  QueueItemdata.CarNumber= CarNumber;
+                         //   QueueItemdata.DriverName= DriverName;
+                           // QueueItemdata.QueueId= QueueId;
+                            QueueItemdata.QueueItemId=QueueItemId
+
+
+
+                            $.ajax({
+                            type: 'post',
+                            c: 'application/x-www-form-urlencoded',
+
+                            url: '/QueueItems/Edit',
+                            data: {
+                            QueueItemId:$('#txtQueueItemId').val(), 
+                            OderLine:$('#txtOderLine').val(),
+                            CarNumber:$('#txtCarNumber').val(),
+                            DriverName:$('#txtDriverName').val(),
+                            Barecode:$('#txtBarecode').val(),
+                            QueueId:$('#dllQueue').val()
+                            
+                            },
+                            success:(queueItem)=>
+                            { if (queueItem!= null)
+                                {
+                                    //alert("Success!");
+                                   // input = document.getElementById('reqlog');
+                                   // document.getElementById('reqlog').hidden=false;
+                                    $('#exampleModalLabel').text('Сохранено!');
+                                    $('#exampleModalLabel').attr('align','center');
+                                   // LoadProdData();
+                                
+
+                                    //input.value="Сохранено";
+                                    setTimeout( Close , 900);
+                                    setTimeout( DialogClose , 900);
+                                    LoadProdData();
+                                    
+
+                                   // document.getElementById('reqlog').hidden=true;
+                                }
+                            },
+                            error() {
+
+                            }
+                        });
+
+                        }
+
+                      function DeleteSave() {
+
+                          //var QueueItemId = $('#txtQueueItemId').val();
+                        //  var CarNumber  = $('#txtCarNumber').val();
+                         // var DriverName = $('#txtDriverName').val();
+
+                         // var QueueItemdata = new Object();
+
+                          //  QueueItemdata.CarNumber= CarNumber;
+                       //     QueueItemdata.DriverName= DriverName;
+                        //    QueueItemdata.QueueId= QueueId;
+
+                            $.ajax({
+                            type: 'post',
+                            c: 'application/x-www-form-urlencoded',
+
+                            url: '/QueueItems/Delete',
+                            data: {
+                            QueueItemId:$('#txtQueueItemId').val(), 
+                            OderLine:$('#txtOderLine').val(),
+                            CarNumber:$('#txtCarNumber').val(),
+                            DriverName:$('#txtDriverName').val(),
+                            Barecode:$('#txtBarecode').val(),
+                            QueueId:$('#dllQueue').val()
+                            
+                            },
+                            success:(queueItem)=>
+                            { if (queueItem!= null)
+                                {
+                                    //alert("Success!");
+                                   // input = document.getElementById('reqlog');
+                                   // document.getElementById('reqlog').hidden=false;
+                                    $('#exampleModalLabel').text('Удалён из очереди!');
+                                    $('#exampleModalLabel').attr('align','center');
+                                    
+                                
+
+                                    //input.value="Сохранено";
+                                    setTimeout( Close , 1100);
+                                    setTimeout( DialogClose , 1100);
+                                    LoadProdData();
+                                    
+
+                                   // document.getElementById('reqlog').hidden=true;
+                                }
+                            },
+                            error() {
+
+                            }
+                        });
+
+
+
+                        }
+
+                       
+
+
+
+
+                        function BtnBlock() {
+                         // const buttonEdit =document.getElementById("BtnEdit");
+                          const buttonSave =document.getElementById("BtnSave");
+                        //  buttonEdit.disabled = true;
+                          buttonSave.disabled = true;
+                        
+                        }
+
+
+
+
+                        function Close () {   
+
+                             document.getElementById ('btnclose').click();
+
+                        }
+
+                        function  DialogClose () {
+                            //document.getElementById('reqlog').hidden=true;
+
+                             $('#exampleModalLabel').text('Редактирование элемента очереди');
+                        }
+
+            </script>
+            <div class="scroll-table">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Номер в очереди</th>
+                            <th>Гос. номер ТС</th>
+                            <th>Карта водителя</th>
+                            <th>Очередь</th>
+                            <th>Ф.И.О водителя</th>
+                            <th>Перевозчик</th>
+                            <th>Цементный Завод</th>
+                            <th>Время регистрации</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="scroll-table-body">
+                    <table>
+                        <tbody table-striped id="tableBody" bgcolor="#E0FFFF"></tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</body>

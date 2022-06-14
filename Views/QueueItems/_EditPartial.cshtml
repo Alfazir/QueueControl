@@ -1,0 +1,69 @@
+﻿@model QueueControlServer.Models.QueueItems
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.QueueItemId)
+
+    <h1>Edit</h1>
+
+    <h4>QueueItem</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="QueueItemId" />
+                <div class="form-group">
+                    <label asp-for="OderLine" class="control-label"></label>
+                    <input asp-for="OderLine" class="form-control" />
+                    <span asp-validation-for="OderLine" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CarNumber" class="control-label"></label>
+                    <input asp-for="CarNumber" class="form-control" />
+                    <span asp-validation-for="CarNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DriverName" class="control-label"></label>
+                    <input asp-for="DriverName" class="form-control" />
+                    <span asp-validation-for="DriverName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Barecode" class="control-label"></label>
+                    <input asp-for="Barecode" class="form-control" />
+                    <span asp-validation-for="Barecode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Factory" class="control-label"></label>
+                    <select asp-for="FactoryId" asp-items="ViewBag.Factory"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Queue" class="control-label"></label>
+                    <select asp-for="QueueId" asp-items="ViewBag.Queues"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Carriers" class="control-label"></label>
+                    <select asp-for="CarrierId" asp-items="ViewBag.Carrier"></select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+}
+@*
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+*@

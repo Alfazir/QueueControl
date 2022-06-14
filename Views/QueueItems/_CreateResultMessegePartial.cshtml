@@ -1,0 +1,110 @@
+﻿@model QueueControlServer.Models.QueueItems
+
+
+<style>
+
+    textarea {
+        outline: none;
+        -moz-appearance: none;
+        border: 1px solid #999; /* указание этого свойства также удалит обводку в FireFox */
+        resize: none;
+        text-align:center;
+    }
+
+    .LogText {
+        background-color: white;
+        border:0px solid #7A7DD6;
+    }
+
+
+</style>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             @*<div class="modal-header">
+                @* <h1 class="modal-title" id="staticBackdropLabel">ИДЕТ РЕГИСТРАЦИЯ </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>*@
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <h2> <textarea class="LogText" id="reqlog" disabled cols="30" readonly></textarea></h2>
+
+
+
+                        <input hidden asp-for="Barecode" class="form-control" type="number" id="targetBarcode" maxlength="13" value="find" readonly />
+                        <span asp-validation-for="Barecode" class="text-danger"></span>
+                        <script>
+                            var test = localStorage.getItem('selected');
+                            input = document.getElementById('targetBarcode');
+                            targetBarcode.value = test
+
+
+                        </script>
+                    </div>
+                </form>
+                <button hidden type="button" id="OkButton" class="btn btn-block py-5 btn-lg btn-success" data-bs-dismiss="modal" >Ok</button>
+
+
+                <script>
+
+
+                                         var settings = {
+                      "url": document.location.href,
+                      "method": "POST",
+                      "timeout": 0,
+                      "c": {
+                        "c": "application/x-www-form-urlencoded",
+                        "Cookie": ".AspNetCore.Antiforgery.xm7HYilcn-g=CfDJ8LIHLixb7nhIr47tS4efh2yin9EvldvNA9dO0X2ddGaqX0diMZZ_27Cq0g4MSEKGEPETTdprw6-MLQCWfzaPSOtxyjbn-cYN3Ec0amQ8AGYTL7y16N5sFNgtTSOZ40RFmpmhwcstZj9q9Vo63VMQOvk"
+                      },
+                      "data": {
+                        "Barecode": $("#target").val()
+                      },
+                     "success": successFunction()
+
+                    };
+
+                    $.ajax(settings).done(function (response) {
+                      console.log(response);
+
+                       input = document.getElementById('reqlog');
+                     reqlog.value= response;
+                     document.getElementById('OkButton').hidden= false;
+                     setTimeout( 'location="/Home/Index";', 10000 );
+
+                    });
+
+
+
+                    function successFunction(data , status) {
+
+                     var test = localStorage.getItem('selected');
+                     input = document.getElementById('reqlog');
+                     reqlog.value= "РЕГИСТРИРАЦИЯ ОЖИДАЙТЕ...";
+
+                    };
+
+                    document.getElementById('OkButton').onclick = function(){
+                    
+                     location.replace("/Home/Index");
+                   }
+
+
+                     $("form").on("submit", function FinishPostBarecode(){
+                          event.preventDefault();
+                           
+                     }
+                     );
+                </script>
+
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+                </div>*@
+        </div>
+    </div>
+</div>

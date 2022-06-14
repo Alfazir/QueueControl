@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LayoutVisors.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+@* <script src="~/js/site.js"></script>*@
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container">
+    <table class="table">
+        
+        <tr>
+            <td>
+                 <a class="navbar-brand" asp-area="" asp-controller="Organizations" asp-action="Index">
+                <h1>Организации</h1>
+            </a>
+            </td>
+           
+        </tr>
+        <tr>
+            <td>
+            <a class="navbar-brand" asp-area="" asp-controller="users" asp-action="Index">
+                <h1>Пользователи</h1>
+            </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <a class="navbar-brand" asp-area="" asp-controller="goodsparameters" asp-action="Index">
+                <h1>Параметры очередей</h1>
+            </a>
+            </td>
+            <td>
+               <h1>/</h1> 
+            </td>
+            <td>
+            <a class="navbar-brand" asp-area="" asp-controller="Queues" asp-action="Index">
+                <h1>Очереди</h1>
+            </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <a class="navbar-brand" asp-area="" asp-controller="roles" asp-action="Index">
+                <h1>Роли</h1>
+            </a>
+            </td>
+        </tr>
+
+
+
+
+    </table>
+</div>

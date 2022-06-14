@@ -1,0 +1,144 @@
+﻿@model IEnumerable<QueueControlServer.Models.Organization>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Grid Layout в CSS3</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .grid-container {
+            height: 500vh;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            grid-column-gap: 15px;
+            grid-row-gap: 5px;
+        }
+
+        .grid-item {
+            text-align: center;
+            font-size: 1.1em;
+            padding: 1.5em;
+            color: white;
+        }
+
+        .color1 {
+            background-color: #ffffff;
+        }
+
+        .color2 {
+            background-color: #9BC850;
+        }
+
+        .color3 {
+            background-color: #f7b2b2;
+        }
+
+        .color4 {
+            background-color: #2A9FBC;
+        }
+
+        .color5 {
+            background-color: #4e342e;
+        }
+
+        .btn-block {
+            padding: 50% 0;
+            /* define values in pixels / Percentage or em. whatever suits
+        your requirements */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-container">
+
+        <div class="grid-item color1">
+            <a class="btn btn-sm btn-warning btn-lg" asp-action="CreateFactory">Добавить Цементный завод  </a>
+            @*<a class="btn btn-default btn-block color2" asp-controller="QueueItems" asp-action="Create"><h1><font size="7">Регистрация на погрузку</font></h1></a>
+        <button type="button" class="btn btn-success btn-lg btn-block" py-4>Block level button</button>*@
+            <table class="table">
+                <tr><th>Наименование</th><th>ID Организации</th><th></th></tr>
+                @foreach (var factory in Model)
+                {
+                    <tr>
+                        <td>@factory.OrganizationName</td>
+                       
+                        @*
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                            <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>*@
+                    </tr>
+                }
+            </table>
+
+
+        </div>
+        <div class="grid-item color1">
+            <a class="btn btn-sm btn-warning btn-lg" asp-action="CreateCarrier">Добавить Транспортную компанию</a>
+            @*<a class="btn btn-default btn-block color3" asp-controller="QueueItems" asp-action="Delete"><h1><font size="7">Отменить регистрацию</font></h1></a>*@
+            <table class="table">
+                <tr><th>Наименование</th><th>ID Организации</th><th></th></tr>
+                @foreach (var factory in Model)
+                {
+                    <tr>
+                        <td>@factory.OrganizationName</td>
+                       
+                        @*
+                    <td>
+                        <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                            <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Удалить
+                            </button>
+                        </form>
+                    </td>*@
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</body>
+
+
+
+
+@*<table class="table">
+    <tr><th>Наименование</th><th>ID Организации</th><th></th></tr>
+    @foreach (var factory in Model)
+    {
+        <tr>
+            <td>@factory.OrganizationName</td>
+            <td>@factory.OrganizationId</td>
+            @*
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Изменить</a>
+                        <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Сменить пароль</a>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+        </tr>
+    }
+</table>*@

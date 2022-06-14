@@ -1,0 +1,177 @@
+﻿@model QueueControlServer.Models.QueueItems
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "_Layout.cshtml";
+}
+<style type="text/css">
+    .demo-row {
+        width: 400px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    body {
+        background-color: white;
+        background-image: url("../images/Photo1.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    form-control {
+        height: calc(2.25rem + 132px);
+        line-height: 3.5;
+        font-size: 11rem;
+    }
+
+    input[type=password] {
+        width: 100%;
+        padding: 50px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid green;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 3.7em;
+    }
+
+    input[type=submit] {
+        padding: 5px 15px;
+        background: #ccc;
+        border: 0 none;
+        cursor: pointer;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+        .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+        }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .modal-header {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 5px;
+        border-bottom: 1px solid #eceeef;
+    }
+
+</style>
+
+
+<h1>Для удаление из очереди сканируйте карту водителя</h1>
+<h1> <font color="red">ВНИМАНИЕ !!! ПОСЛЕ СКАНА КАРТЫ ВЫ БУДЕТЕ УДАЛЕНЫ ИЗ ОЧЕРЕДИ! </font> </h1>
+
+<h4></h4>
+<hr />
+
+<div class="row">
+    <div class="container-fluid">
+        <form>
+            <div class="form-group container-fluid">
+                <div class="container-fluid">
+                   
+                    <input asp-for="Barecode" class="form-control container-fluid" oninput="myFunction()" type="password" maxlength="13" id="target" onchange="input.focus" onblur="this.focus()" autofocus />
+                    <span asp-validation-for="Barecode" class="text-danger"></span>
+                </div>
+                <script>
+                    function myFunction () {
+                        var ff = document.getElementById('target').value;
+                        localStorage.setItem('selected', ff);
+                    }
+                      //var test = localStorage.getItem('selected');
+                </script>
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            </div>
+
+
+            <div class="form-group">
+                @* <input type="submit" value="Delete" class="btn btn-danger" />*@
+            </div>
+        </form>
+    </div>
+    <script>
+
+        $("form").on("submit", function PostBarecode(){
+             event.preventDefault();
+           //  document.getElementById("CreateButtomSubmit").click();
+              var url = "_DeleteResultMessegePartial";
+           $.get(url).done(function (data) {
+           $('#modal-placeholder').html(data);
+           $('#modal-placeholder > .modal').modal('show');
+            document.getElementById('target').remove();
+
+
+                });
+                })
+
+
+
+
+
+    </script>
+    <div id="modal-placeholder"></div>
+
+</div>
+
+
+@*<div>
+    <a asp-action="Index">Отмена регистрации</a>
+</div>*@
+
+<!-- Button trigger modal -->
+@*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+</button>*@
+
+<!-- Modal -->
+@*<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+
+
+
+@section Scripts {
+    {
+    @*await Html.RenderPartialAsync("_ValidationScriptsPartial");*@
+}
+}

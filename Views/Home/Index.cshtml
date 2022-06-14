@@ -1,0 +1,157 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout.cshtml";
+}
+
+<div class="text-center">
+    @* <h1 class="display-4">Хрен ДЕрьмо и Помидоры</h1>*@
+    @* <p>Learn about <a href="https://stc93.com/"> Южная Транспортная компания</a>.</p>*@
+
+</div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Grid Layout в CSS3</title>
+    <style>
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+            max-height: 100%;
+        }
+
+        .grid-item {
+            font-size: 180%;
+            padding: 0.5em;
+            color: white;
+            max-height: 100%;
+            max-width: 100%
+        }
+
+        .color1 {
+            background-color: #ffffff;
+        }
+
+        .color2 {
+            background-color: #9BC850;
+        }
+
+        .color3 {
+            background-color: #f7b2b2;
+        }
+
+        .color4 {
+            background-color: #2A9FBC;
+        }
+
+        .color5 {
+            background-color: #4e342e;
+        }
+
+        .btn-block {
+            padding: 50% 0;
+            /* define values in pixels / Percentage or em. whatever suits
+                                                your requirements  Здесь центровка  */
+        }
+
+        body {
+            background-color: white;
+            background-image: url("../images/Photo1.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        Layout {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            @* <a type="button" class="btn btn-outline-primary  Layout container-fluid " asp-controller="Queues" asp-action="QueuesList"><h1><font size="11">Просмотр очередей</font></h1></a>  // старый просмотр*@
+
+
+            @if (User.IsInRole("admin"))
+            {
+                <a type="button" class="btn btn-outline-primary  Layout container-fluid " asp-controller="QueueItems" asp-action="Index"><h1><font size="11">Просмотр очередей</font></h1></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-outline-primary  Layout container-fluid " asp-controller="Queues" asp-action="QueuesPackages"><h1><font size="11">Просмотр очередей</font></h1></a>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+
+            }
+            else
+            {
+                <a type="button" class="btn btn-outline-danger  container-fluid" asp-controller="Account" asp-action="Login">Вход</a>
+                @*<a asp-controller="Account" asp-action="Register">Регистрация</a>*@
+            }
+
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+            <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+        </div>
+    </div>
+
+
+    <div class="grid-container">
+
+        <div class="grid-item ">
+            <a class="btn btn-outline-success btn-block" asp-controller="QueueItems" asp-action="Create"><h1><font size="9">Регистрация на погрузку</font></h1></a>
+            @*  <button type="button" class="btn btn-success btn-lg btn-block" py-4>Block level button</button>*@
+        </div>
+
+        <div class="grid-item ">
+
+            <a class="btn btn-outline-danger btn-block" asp-controller="QueueItems" asp-action="DeleteRequest"><h1><font size="9">Отменить регистрацию</font></h1></a>
+
+        </div>
+    </div>
+</body>
+
+@*
+    Форма регистрации:
+*@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<body>
+
+    @if (User.IsInRole("user"))
+    {
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+    <input type="submit" value="Выход" />
+    </form>
+    <p>
+    <a asp-controller="QueueItems" asp-action="Create">Регистрация в очереди</a>
+    </p>
+    }
+    else
+    {
+    <a asp-controller="Account" asp-action="Login">Вход</a>
+    <a asp-controller="Account" asp-action="Register">Регистрация</a>
+    }
+    </body>*@

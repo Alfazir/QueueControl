@@ -1,0 +1,112 @@
+﻿@model IEnumerable<QueueControlServer.Models.Queue>
+@{
+    Layout = "_Layout";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<style>
+    body {
+        background-color: white;
+        background-image: url("../images/Photo1.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 33% 33% 33%;
+        gap: 10px;
+        padding: 10px;
+    }
+
+        .grid-container > a {
+            background-color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            padding: 50px 0;
+            /* font-size: auto; */
+        }
+
+</style>
+
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap Grid</title>
+</head>
+<body>
+    <p><h1>Выберите марку цемента:</h1></p>
+    <div class="grid-container">
+        @foreach (var item in Model)
+        {
+
+            <a class="btn btn-outline-info"  asp-controller = "QueueItems" asp-action="QueueItemsList" asp-route-QueueName="@item.QueueName" asp-route-Factory ="@item.Factory.OrganizationName" ><h1>@item.Brand.BrandName</h1></a>
+
+        }
+    </div>
+</body>
+@*  </body>
+
+    <div class="grid-container">
+    <div class="btn btn-outline-info"><h1>Навал</h1></div>
+    <div class="btn btn-outline-info"><h1>ЦЕМ I 42,5Н Навал № 1</h1></div>
+    <div class="btn btn-outline-info"><h1>Тара 1500 кг МКР</h1></div>
+    <div class="btn btn-outline-info">6</div>
+    <div class="btn btn-outline-info">6</div>
+    <div class="btn btn-outline-info"><h1>ЦЕМ II/А-П 42,5Н СС Навал № 1</h1></div>
+    <div class="btn btn-outline-info">6</div>
+    forech
+    </div>
+
+    </body>*@
+
+@*<body>
+    <div class="container-fluid">
+    <h4>Complex Gallery</h4>
+    <div class="row d-inline-flex">
+    <!-- Gallery Item 1 -->
+    <div class="col-12 col-sm-6 col-md-4 p-2">
+    <div class="d-flex flex-column text-center border height100">
+    <div>
+    <img src="../images/Photo1.jpg" />
+    </div>
+    <h2>Sheep</h2>
+    <p>Info..</p>
+    </div>
+    </div>
+    <!-- Gallery Item 2 -->
+    <div class="col-12 col-sm-6 col-md-4 p-2">
+    <div class="d-flex flex-column text-center border height100">
+    <div>
+    <img src="../images/Photo1.jpg" />
+    </div>
+    <h2>Horse</h2>
+    </div>
+    </div>
+    <!-- Gallery Item 2 -->
+    <div class="col-12 col-sm-6 col-md-4 p-2">
+    <div class="d-flex flex-column text-center border height100">
+    <div>
+    <img src="../images/Photo1.jpg" />
+    </div>
+    <h2>Horse</h2>
+    </div>
+    </div>
+    <!-- Gallery Item 2 -->
+    <div class="col-12 col-sm-6 col-md-4 p-2">
+    <div class="d-flex flex-column text-center border height100">
+    <div>
+    <img src="../images/Photo1.jpg" />
+    </div>
+    <h2>Horse</h2>
+    </div>
+    </div>
+    </div>
+
+    </body>*@
+
+
+

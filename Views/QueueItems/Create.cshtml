@@ -1,0 +1,262 @@
+﻿@model QueueControlServer.Models.QueueItems
+
+
+@*@using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+    <div>
+    @Html.LabelFor(model => model.Barecode)
+    <p>@Html.EditorFor(model => model.Model)</p>
+    </div>
+
+    <div>
+    @Html.LabelFor(model => model.Year)
+    <p>@Html.EditorFor(model => model.Year)</p>
+    </div>
+    <p><input type="submit" value="Добавить" /></p>
+    }
+    </div>*@
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout.cshtml";
+}
+
+
+
+<style type="text/css">
+    .demo-row {
+        width: 400px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    body {
+        background-color: white;
+        background-image: url("../images/Photo1.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    form-control {
+        height: calc(2.25rem + 132px);
+        line-height: 3.5;
+        font-size: 11rem;
+    }
+
+    input[type=password] {
+        width: 100%;
+        padding: 50px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid green;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 3.7em;
+    }
+
+    input[type=submit] {
+        padding: 5px 15px;
+        background: #ccc;
+        border: 0 none;
+        cursor: pointer;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+        .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+        }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .modal-header {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding: 5px;
+        border-bottom: 1px solid #eceeef;
+    }
+
+</style>
+
+
+<h1>Сканируйте карту водителя:</h1>
+
+<h4></h4>
+<hr />
+
+<div class="row">
+    <div class="container-fluid">
+        <form>
+            <div class="form-group container-fluid">
+                <div class="container-fluid">
+                    <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+                    <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+                    <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+
+                    <input asp-for="Barecode" class="form-control container-fluid" oninput="myFunction()" type="password" maxlength="13" id="target" onchange="input.focus" onblur="this.focus() " autofocus />@*фокус поле*@
+                    <span asp-validation-for="Barecode" class="text-danger"></span>
+                </div>
+                <div class="checkout__agree">
+                    <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+                <label class="checkbox">
+                    <input type="checkbox" id="agreement-10" class="checkbox__control" checked="">
+                    <span class="checkbox__label">Сканируя карту, Вы даёте свое согласие на обработку персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных», на условиях и для целей, определенных в <a onclick="ShowAgreement();" href="javascript:void(0);">Согласии на обработку персональных данных</a></span>
+                </label>
+            </div>
+                <script>
+                       // Фокусировка ввода
+                     function myFunction () {
+                     var ff = document.getElementById('target').value;
+                     localStorage.setItem('selected', ff);
+                    }
+                </script>
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+
+           // Создание модального окна.
+
+          //  $(function () {
+        //    $('button[data-toggle="ajax-modal"]').click(function (event) {
+         //   var url = $(this).data('url');
+         //   $.get(url).done(function (data) {
+         //   $('#modal-placeholder').html(data);
+         //   $('#modal-placeholder > .modal').modal('show');
+         //        });
+         //     });
+         //  });
+
+
+           // перевесить всё на событие энтер
+            $("form").on("submit", function PostBarecode(){
+              event.preventDefault();
+            //  document.getElementById("CreateButtomSubmit").click();
+               var url = "_CreateResultMessegePartial";
+            $.get(url).done(function (data) {
+            $('#modal-placeholder').html(data);
+            $('#modal-placeholder > .modal').modal('show');
+             document.getElementById('target').remove();
+
+
+                 });
+                 })
+
+    </script>
+
+    <div id="modal-placeholder"></div>
+
+</div>
+<h1></h1>
+@if (User.IsInRole("Terminal"))
+{
+<h1> <font color="red">ВНИМАНИЕ !!! Только если у Вас нет карты водителя: </font> </h1>
+<a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+<a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+
+<div>
+    <a class="btn btn-outline-warning py-5" asp-controller="QueueItems" asp-action="CreateWithoutBarecode"><h1>Регистрация в очереди без карты</h1></a>
+</div>
+}
+<div class="form-group container-fluid">
+    <a class="   Layout container-fluid "><h1><font size="9"></font></h1></a>
+</div>
+
+@*<!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+    </button>*@
+
+<!-- Modal -->
+@*<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    <input asp-for="Barecode" class="form-control"  id="target" maxlength="13" value="@ViewBag.Barecode" readonly />
+    <script>
+
+
+
+    function GetBarecode()
+    {
+    var test = localStorage.getItem('selected');
+    input = document.getElementById('target');
+    target.value = test
+    }
+
+    $('#Create').click(function () {
+    GetBarecode();
+    })
+    GetBarecode();
+
+
+
+
+    </script>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary">Understood</button>
+    </div>
+    </div>
+    </div>
+    </div>*@
+
+
+
+
+
+
+@section Scripts {
+
+@*<script type="text/javascript">
+
+    $(function () {
+    $.ajaxSetup({ cache: false });
+    $("Create").click(function (e) {
+
+    e.preventDefault();
+    $.get(this.href, function (data) {
+    $('#dialogContent').html(data);
+    $('#modDialog').modal('show');
+    });
+    });
+    })
+    </script>*@
+
+
+
+
+
+}
+

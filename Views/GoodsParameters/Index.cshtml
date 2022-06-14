@@ -1,0 +1,128 @@
+﻿@model QueueControlServer.ViewModels.GoodsParameter.GoodsParameterViewModel
+@{
+    ViewData["Title"] = "Index";
+  //  Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h1>Index</h1>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Grid Layout в CSS3</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .grid-container {
+            height: 50vh;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+            grid-column-gap: 10px;
+            grid-row-gap: 5px;
+        }
+
+        .grid-item {
+            text-align: center;
+            font-size: 1.1em;
+            padding: 1.5em;
+            color: white;
+        }
+
+        .color1 {
+            background-color: #ffffff;
+        }
+
+        .color2 {
+            background-color: #9BC850;
+        }
+
+        .color3 {
+            background-color: #f7b2b2;
+        }
+
+        .color4 {
+            background-color: #2A9FBC;
+        }
+
+        .color5 {
+            background-color: #4e342e;
+        }
+
+        .btn-block {
+            padding: 50% 0;
+            /* define values in pixels / Percentage or em. whatever suits
+                        your requirements */
+        }
+    </style>
+</head>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<body>
+    <div class="grid-container">
+
+        <div class="grid-item color1">
+            Grid Item 2
+            <a class="btn btn-sm btn-success" asp-action="CreateBrand">Добавить марку цемента</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID элемента</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @foreach (var item in Model.Brands)
+                    {
+                                <tr>
+                                    <td>@item.GoodsParameterId</td>
+                                    <td>@item.BrandName</td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.GoodsParameterId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.GoodsParameterId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.GoodsParameterId">Delete</a>
+                                    </td>
+                                </tr>
+                    }
+                </tbody>
+            </table>
+
+            @*  <button type="button" class="btn btn-success btn-lg btn-block" py-4>Block level button</button>*@
+        </div>
+        <div class="grid-item color1">
+            Grid Item 3
+            <a class="btn btn-sm btn-success" asp-action="CreatePackage">Добавить вид упаковки</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ПППППППП</th>
+                    </tr>
+                </thead>
+               <tbody>
+                  @foreach (var item in Model.Packages)
+                    {
+                                <tr>
+                                    <td>@item.GoodsParameterId</td>
+                                    <td>@item.PackageName</td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.GoodsParameterId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.GoodsParameterId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.GoodsParameterId">Delete</a>
+                                    </td>
+                                </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</body>
