@@ -1,7 +1,7 @@
 {
   "MySettings": {
     "IntegrationAddress": "https://example.com/local/ajax/Example.php?code",
-    "IntegrationToken": "queue",
+    "IntegrationToken": "example",
     "PHPSESSID": "wYZWe6V4rj8WgRANtKd9QMu0Jq4ikK6v",
     "ShippingAddress": "https://example.com/local/ajax/example.php?type_rec=add_que&place=1&barcode",
     //"ShippingToken": "",
